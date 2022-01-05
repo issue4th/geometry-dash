@@ -2,16 +2,20 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     game.over(false, effects.dissolve)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(is_jumping)) {
+    if (jump_velocity == 0) {
         jump_velocity = -125
-        is_jumping = true
+    } else {
+    	
     }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
+    game.over(false, effects.dissolve)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
     game.over(false, effects.dissolve)
 })
-let is_jumping = false
 let jump_velocity = 0
+jump_velocity = 0
 scene.setBackgroundColor(9)
 let cube = sprites.create(img`
     222aaaaaaaaa777aaa
@@ -37,15 +41,17 @@ cube.setVelocity(125, 0)
 scene.cameraFollowSprite(cube)
 tiles.loadMap(tiles.createMap(tilemap`level1`))
 tiles.placeOnRandomTile(cube, assets.tile`myTile2`)
-jump_velocity = 0
-is_jumping = false
 game.onUpdateInterval(100, function () {
-    if (is_jumping) {
+    if (jump_velocity != 0) {
         cube.vy = jump_velocity
         cube.vx = 125
         jump_velocity += 30
-        if (cube.tileKindAt(TileDirection.Bottom, assets.tile`myTile`)) {
-            is_jumping = true
-        }
+    } else {
+        jump_velocity = 0
+        cube.vy = 0
+        cube.vx = 125
+    }
+    if (cube.tileKindAt(TileDirection.Bottom, assets.tile`myTile`) || (cube.tileKindAt(TileDirection.Bottom, assets.tile`myTile12`) || (cube.tileKindAt(TileDirection.Bottom, assets.tile`myTile8`) || cube.tileKindAt(TileDirection.Bottom, assets.tile`myTile11`)))) {
+        jump_velocity = 0
     }
 })
