@@ -7,6 +7,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         is_jumping = true
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
+    game.over(false, effects.dissolve)
+})
 let is_jumping = false
 let jump_velocity = 0
 scene.setBackgroundColor(9)
